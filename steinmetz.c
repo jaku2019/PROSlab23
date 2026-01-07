@@ -22,8 +22,9 @@ int check_point_condition(double x, double y, double z){
 void main(){
     int N = 1000000;    // liczba prob
     double x, y, z;     // wspolrzedne punktu
-    int hit_count = 0;  // Licznik trafien
+    double hit_count = 0;  // Licznik trafien
     double r = 1.0;     // promien walcow
+    double steinmetz_volume; // objetosc Steinmetza
     
     // zakres 2r
     double min = -r;
@@ -41,5 +42,7 @@ void main(){
         }
     }
 
-    printf("Hit count: %d\n", hit_count);
+    printf("Hit count: %f\n", hit_count);
+    steinmetz_volume = 8 * r * r * r * hit_count / N;
+    printf("Obj Steinmetza: %f\n", steinmetz_volume);
 }
