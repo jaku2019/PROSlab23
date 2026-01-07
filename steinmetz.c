@@ -21,9 +21,9 @@ double random_point_in_cube(double min, double max){
 }
 
 int check_point_condition(double x, double y, double z){
-    if (x**2 + y**2 <=1) && (x**2 + z**2 <=1){
+    if ((x * x + y * y) <= 1.0 && (x * x + z * z) <= 1.0){
         return 1;
-    };
+    }
     else{
         return 0;
     }
