@@ -20,21 +20,26 @@ int check_point_condition(double x, double y, double z){
 }
 
 void main(){
-    double x, y, z;
-    int hit_count = 0;
-    double min = -2;
-    double max = 2;
+    int N = 1000000;    // liczba prob
+    double x, y, z;     // wspolrzedne punktu
+    int hit_count = 0;  // Licznik trafien
+    double r = 1.0;     // promien walcow
+    
+    // zakres 2r
+    double min = -r;
+    double max = r;
+    for (int i = 0; i < N; i++){
 
-    // losowanie 3 pktow
-    x = random_double(min, max);
-    y = random_double(min, max);
-    z = random_double(min, max);
+        // losowanie 3 pktow
+        x = random_double(min, max);
+        y = random_double(min, max);
+        z = random_double(min, max);
 
-    // Jesli funkcja zwrocila 1, zwiekszamy licznik
-    if (check_point_condition(x, y, z) == 1) {
-        hit_count++;
+        // Jesli funkcja zwrocila 1, zwiekszamy licznik
+        if (check_point_condition(x, y, z) == 1) {
+            hit_count++;
+        }
     }
 
-    check_point_condition(x, y, z);
     printf("Hit count: %d\n", hit_count);
 }
