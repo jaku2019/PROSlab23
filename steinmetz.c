@@ -41,8 +41,8 @@ void main(){
             hit_count++;
         }
     }
-
-    printf("Hit count: %f\n", hit_count);
+    
+    // obliczanie objetosci Steinmetza
     steinmetz_volume = 8 * r * r * r * hit_count / N;
     printf("Obj Steinmetza: %f\n", steinmetz_volume);
 }

@@ -1,6 +1,12 @@
-def main():
-    print("Hello from proslab23!")
+import random
 
+N = 10_000_000
+hit_count = 0
+r = 1
 
-if __name__ == "__main__":
-    main()
+for _ in range(N):
+    # losujemy pkt z zakresu [-r, r]
+    x = random.uniform(-r, r)
+    y = random.uniform(-r, r)
+    z = random.uniform(-r, r)
+
