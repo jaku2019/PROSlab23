@@ -11,30 +11,30 @@ double random_double(double min, double max){
     return result;
 }
 
-double random_point_in_cube(double min, double max){
-    double x = random_double(min, max);
-    double y = random_double(min, max);
-    double z = random_double(min, max);
-
-    return x, y, z;
-
-}
-
 int check_point_condition(double x, double y, double z){
-    if ((x * x + y * y) <= 1.0 && (x * x + z * z) <= 1.0){
+    if ((x * x + y * y) <= 1 && (x * x + z * z) <= 1){
         return 1;
-    }
-    else{
+    } else {
         return 0;
     }
 }
 
 void main(){
     double x, y, z;
-
+    int hit_count = 0;
     double min = -2;
     double max = 2;
 
-    x, y, z = random_point_in_cube(min, max);
-    printf("Random point in cube: (%f, %f, %f)\n", x, y, z);
+    // losowanie 3 pktow
+    x = random_double(min, max);
+    y = random_double(min, max);
+    z = random_double(min, max);
+
+    // Jesli funkcja zwrocila 1, zwiekszamy licznik
+    if (check_point_condition(x, y, z) == 1) {
+        hit_count++;
+    }
+
+    check_point_condition(x, y, z);
+    printf("Hit count: %d\n", hit_count);
 }
