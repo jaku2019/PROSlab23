@@ -1,6 +1,7 @@
 import random
 import ctypes
 from steinmetz_mypyc import steinmetz_mypyc_function
+from steinmetz_ctype import steinmetz_volume_c
 from numba import jit
 import matplotlib.pyplot as plt
 import time
@@ -62,17 +63,19 @@ def steinmetz_numba(N, r):
             hit_count += 1
     return (hit_count / N) * 8 * r**3
 
-# Python z ctypes (C)
+# Python z ctypes
+@time_it
 def steinmetz_c_lib(N, r):
-    lib_path = './libsteinmetz.so'
+    return steinmetz_volume_c(N, r)
 
 # Python z mypyc
+@time_it
 def steinmetz_mypyc(N, r):
     import steinmetz_mypyc
     return steinmetz_mypyc.steinmetz_mypyc_function(N, r)
 
 # Czesc testowa
-N_values = [5_000_000, 6_000_000, 7_000_000, 8_000_000, 9_000_000, 10_000_000]
+N_values = [5_000_000, 6_000_000, 7_000_000]
 r = 1.0  # Ustalone r
 
 # Listy na czasy wykonania t_c
