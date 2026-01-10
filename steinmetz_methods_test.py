@@ -9,11 +9,11 @@ import time
 def time_it(fun):
     def wrapper(*args, **kwargs):
         stime = time.perf_counter()
-        result = fun(*args, **kwargs)
+        # result = fun(*args, **kwargs) moznaby zracac tez wynik, ale tu potrzebny jest tylko czas
         etime = time.perf_counter()
         mtime = etime - stime
-        print("Czas wykonania", mtime)
-        return (result, mtime)
+        # print("Czas wykonania", mtime)
+        return (mtime)
     return wrapper
 
 
@@ -74,8 +74,31 @@ def steinmetz_mypyc(N, r):
 N_values = [5_000_000, 6_000_000, 7_000_000, 8_000_000, 9_000_000, 10_000_000]
 r = 1.0  # Ustalone r
 
-# Listy na czasy wykonania (t_c)
+# Listy na czasy wykonania t_c
 times_python = []
 times_numba = []
 times_ctypes = []
-times_mypyc = [] # jeśli używasz
+times_mypyc = []
+
+# rozgrzewka jit numby
+steinmetz_numba_warmup(1_000_000, r)
+
+# petla pomiarowa
+for N in N_values:
+    print(f"Liczę dla N = {N}")
+
+    # czysty Python
+    t_py = steinmetz_pure_python(N, r)
+    times_python.append(t_py)
+
+    # numba
+    t_nb = steinmetz_numba(N, r)
+    times_numba.append(t_nb)
+
+    # ctypes
+    t_ct = steinmetz_c_lib(N, r)
+    times_ctypes.append(t_ct)
+
+    # mypyc
+    t_mp = steinmetz_mypyc(N, r)
+    times_mypyc.append(t_mp)
