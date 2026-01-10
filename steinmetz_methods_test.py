@@ -1,17 +1,19 @@
 import random
 import ctypes
+from steinmetz_mypyc import steinmetz_mypyc_function
 from numba import jit
 import matplotlib.pyplot as plt
 import time
 
+# liczenie czasu wykonania
 def time_it(fun):
     def wrapper(*args, **kwargs):
         stime = time.perf_counter()
-        v = fun(*args, **kwargs)
+        result = fun(*args, **kwargs)
         etime = time.perf_counter()
         mtime = etime - stime
         print("Czas wykonania", mtime)
-        return (v, mtime)
+        return (result, mtime)
     return wrapper
 
 
@@ -30,11 +32,9 @@ def steinmetz_pure_python(N, r):
             hit_count += 1
     return (hit_count / N) * 8 * r**3
 
-# Python z Numba
-@time_it
+# Python z Numba bez pomiaru (dla 'rozgrzewki' JIT)
 @jit(nopython=True)
-def steinmetz_numba(N, r):
-    
+def steinmetz_numba_warmup(N, r):
     hit_count = 0
     for _ in range(N):
         # losujemy pkt z zakresu [-r, r]
@@ -45,15 +45,30 @@ def steinmetz_numba(N, r):
         if (x**2 + y**2) <= 1 and (x**2 + z**2) <= 1:
             hit_count += 1
     return (hit_count / N) * 8 * r**3
+
+# Python z Numba z pomiarem
+@time_it
+@jit(nopython=True)
+def steinmetz_numba(N, r):
+    hit_count = 0
+    for _ in range(N):
+        # losujemy pkt z zakresu [-r, r]
+        x = random.uniform(-r, r)
+        y = random.uniform(-r, r)
+        z = random.uniform(-r, r)
+
+        if (x**2 + y**2) <= 1 and (x**2 + z**2) <= 1:
+            hit_count += 1
+    return (hit_count / N) * 8 * r**3
+
 # Python z ctypes (C)
-def steinmetz_c_lib():
+def steinmetz_c_lib(N, r):
     lib_path = './libsteinmetz.so'
 
 # Python z mypyc
-def steinmetz_mypyc():
+def steinmetz_mypyc(N, r):
     import steinmetz_mypyc
-    return steinmetz_mypyc.steinmetz_mypyc_function
+    return steinmetz_mypyc.steinmetz_mypyc_function(N, r)
 
 steinmetz_pure_python(1_000_000, 1)
-steinmetz_numba(1_000_000, 1)
 steinmetz_numba(1_000_000, 1)
