@@ -70,5 +70,12 @@ def steinmetz_mypyc(N, r):
     import steinmetz_mypyc
     return steinmetz_mypyc.steinmetz_mypyc_function(N, r)
 
-steinmetz_pure_python(1_000_000, 1)
-steinmetz_numba(1_000_000, 1)
+# Czesc testowa
+N_values = [5_000_000, 6_000_000, 7_000_000, 8_000_000, 9_000_000, 10_000_000]
+r = 1.0  # Ustalone r
+
+# Listy na czasy wykonania (t_c)
+times_python = []
+times_numba = []
+times_ctypes = []
+times_mypyc = [] # jeśli używasz
