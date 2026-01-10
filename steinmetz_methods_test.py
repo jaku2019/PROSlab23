@@ -118,6 +118,7 @@ p_numba = times_python / times_numba
 p_ctypes = times_python / times_ctypes
 p_mypyc = times_python / times_mypyc
 
+# rysowanie wykresu
 plt.figure()
 
 plt.plot(N_values, p_numba, label='Numba', marker='o')
@@ -130,5 +131,6 @@ plt.axhline(y=1, color='r', linestyle='--', label='Czysty Python')
 plt.xlabel('Liczba losowań (N)')
 plt.ylabel('Przyspieszenie (krotność)')
 plt.title(f'Porównanie wydajności dla r={r}')
-
+plt.legend()
+plt.grid(True)
 plt.savefig('wykres_przyspieszenia.png', dpi=300, bbox_inches='tight')
