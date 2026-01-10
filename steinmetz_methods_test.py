@@ -4,6 +4,7 @@ from steinmetz_mypyc import steinmetz_mypyc_function
 from numba import jit
 import matplotlib.pyplot as plt
 import time
+import numpy as np
 
 # liczenie czasu wykonania
 def time_it(fun):
@@ -102,3 +103,15 @@ for N in N_values:
     # mypyc
     t_mp = steinmetz_mypyc(N, r)
     times_mypyc.append(t_mp)
+
+# liczenie wsp przyspieszenia p
+# konwersja do numpy zeby wygodniej liczyc element po elemencie
+times_python = np.array(times_python)
+times_numba = np.array(times_numba)
+times_ctypes = np.array(times_ctypes)
+times_mypyc = np.array(times_mypyc)
+
+p_numba = times_python / times_numba
+p_ctypes = times_python / times_ctypes
+p_mypyc = times_python / times_mypyc
+
